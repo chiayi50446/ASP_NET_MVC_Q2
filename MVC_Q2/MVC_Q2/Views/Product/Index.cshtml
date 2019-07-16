@@ -1,0 +1,35 @@
+﻿@model IPagedList<MVC_Q2.Models.DataModel> 
+@using PagedList.Mvc;
+@using PagedList;
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<div id="tableContainer">
+    <table cellspacing="0" cellpadding="0" class="table03">
+        <thead>
+            <tr>
+                <td> ID </td>
+                <td> Product Name </td>
+                <td> Locale </td>
+                <td> Create Date </td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var data in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Detail", new { id = data.Id })">@(@data.Id)</a>
+                        </td>
+                        <td>@data.Product_Name</td>
+                        <td>@data.Locale</td>
+                        <td>@data.Create_Date</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>

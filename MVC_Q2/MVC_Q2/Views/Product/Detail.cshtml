@@ -1,0 +1,75 @@
+﻿@model MVC_Q2.Models.DataModel
+@{
+    ViewBag.Title = "Detail";
+}
+
+<h2>Detail</h2>
+<h3>ID : @Model.Id</h3>
+<div id="tableContainer">
+    <table cellspacing="0" cellpadding="0" class="table03">
+        <tr>
+            <td> ProductName  </td>
+            <td> @Model.Product_Name </td>
+        </tr>
+        <tr>
+            <td> Locale   </td>
+            <td> @LocaleDescription(@Model.Locale) </td>
+        </tr>
+        <tr>
+            <td> Price   </td>
+            <td> @isNull(@Model.Price) </td>
+        </tr>
+        <tr>
+            <td> PromotePrice   </td>
+            <td> @isNull(@Model.Promote_Price) </td>
+        </tr>
+        <tr>
+            <td> CreateDate   </td>
+            <td> @Model.Create_Date </td>
+        </tr>
+    </table>
+    <div class="button_area align_c">
+        <button type="button" class="button02" onclick="javascript:window.history.go(-1);">上一頁</button>
+    </div>
+</div>
+
+@helper LocaleDescription(string locale)
+{
+    string result = "";
+    switch (locale)
+    {
+        case "US":
+            result = "Unite State";
+            break;
+        case "DE":
+            result = "Germany";
+            break;
+        case "CA":
+            result = "Canada";
+            break;
+        case "ES":
+            result = "Spain";
+            break;
+        case "FR":
+            result = "France";
+            break;
+        case "JP":
+            result = "Japan";
+            break;
+        default:
+            result = "-";
+            break;
+    }
+
+    <text>@result</text>
+}
+
+@helper isNull(string price)
+{
+    string result = price;
+    if (price.IsEmpty() || price == "")
+    {
+        result = "-";
+    }
+    <text>@result</text>
+}
