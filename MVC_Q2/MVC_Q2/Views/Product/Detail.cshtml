@@ -13,15 +13,15 @@
         </tr>
         <tr>
             <td> Locale   </td>
-            <td> @LocaleDescription(@Model.Locale) </td>
+            <td> @Model.Locale </td>
         </tr>
         <tr>
             <td> Price   </td>
-            <td> @isNull(@Model.Price) </td>
+            <td> @CurrencyConversion(@Model.Price, Model.Locale) </td>
         </tr>
         <tr>
             <td> PromotePrice   </td>
-            <td> @isNull(@Model.Promote_Price) </td>
+            <td> @CurrencyConversion(@Model.Promote_Price, Model.Locale) </td>
         </tr>
         <tr>
             <td> CreateDate   </td>
@@ -33,41 +33,37 @@
     </div>
 </div>
 
-@helper LocaleDescription(string locale)
+@helper CurrencyConversion(string price, string locale)
 {
     string result = "";
-    switch (locale)
+    double doubleResult;
+    if (double.TryParse(price, out doubleResult) && doubleResult > 0)
     {
-        case "US":
-            result = "Unite State";
-            break;
-        case "DE":
-            result = "Germany";
-            break;
-        case "CA":
-            result = "Canada";
-            break;
-        case "ES":
-            result = "Spain";
-            break;
-        case "FR":
-            result = "France";
-            break;
-        case "JP":
-            result = "Japan";
-            break;
-        default:
-            result = "-";
-            break;
-    }
-
-    <text>@result</text>
-}
-
-@helper isNull(string price)
-{
-    string result = price;
-    if (price.IsEmpty() || price == "")
+        switch (locale)
+        {
+            case "US":
+                result = "$" + price;
+                break;
+            case "DE":
+                result = "€" + price;
+                break;
+            case "CA":
+                result = "$" + price;
+                break;
+            case "ES":
+                result = "€" + price;
+                break;
+            case "FR":
+                result = "€" + price;
+                break;
+            case "JP":
+                result = "¥" + price;
+                break;
+            default:
+                result = "-";
+                break;
+        }
+    } else
     {
         result = "-";
     }

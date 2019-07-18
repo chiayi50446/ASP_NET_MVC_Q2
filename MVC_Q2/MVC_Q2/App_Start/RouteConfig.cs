@@ -16,7 +16,7 @@ namespace MVC_Q2
             routes.MapRoute(
                 name: "PageDefault",
                 url: "{controller}",
-                defaults: new { controller = "Product", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
                 );
 
             routes.MapRoute(
