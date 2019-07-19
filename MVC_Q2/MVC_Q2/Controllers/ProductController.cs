@@ -26,7 +26,7 @@ namespace MVC_Q2.Controllers
         // GET: Product
         public ActionResult Index(int page = 1)
         {
-            var dataList = dataRepository.Get();
+            var dataList = dataRepository.DataConversion();
             data.productList = dataList.OrderBy(x => x.Id).ToPagedList(page, pageSize);
             return View(data);
         }

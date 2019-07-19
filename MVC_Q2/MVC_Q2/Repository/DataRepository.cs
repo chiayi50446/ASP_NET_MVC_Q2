@@ -17,6 +17,22 @@ namespace MVC_Q2.Models
             return JsonConvert.DeserializeObject<List<ProductDetail>>(json);
         }
 
+        public List<Product> DataConversion()
+        {
+            List<ProductDetail> dataList = Get();
+            List<Product> result = new List<Product>();
+            foreach (var data in dataList)
+            {
+                Product product = new Product();
+                product.Id = data.Id;
+                product.Locale = data.Locale;
+                product.Product_Name = data.Product_Name;
+                product.Create_Date = data.Create_Date;
+                result.Add(product);
+            }
+            return result;
+        }
+
         public ProductDetail CurrencyConversion(ProductDetail product)
         {
             string cultureName = GetCultureName(product.Locale);
