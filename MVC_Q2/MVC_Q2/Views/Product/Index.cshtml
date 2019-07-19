@@ -1,4 +1,4 @@
-﻿@model IPagedList<MVC_Q2.Models.DataModel> 
+﻿@model MVC_Q2.ViewModels.ProductDetailViewModel 
 @using PagedList.Mvc;
 @using PagedList;
 @{
@@ -17,7 +17,7 @@
         </thead>
         <tbody>
             @{
-                foreach (var data in Model)
+                foreach (var data in Model.productList)
                 {
                     <tr>
                         <td>
@@ -31,5 +31,5 @@
             }
         </tbody>
     </table>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    @Html.PagedListPager(Model.productList, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 </div>
