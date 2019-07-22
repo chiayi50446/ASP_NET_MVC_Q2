@@ -4,31 +4,69 @@
 }
 
 <h2>Detail</h2>
-<h3>ID : @Model.productDetail.Id</h3>
+<h3>ID : @Model.Id</h3>
 <div id="tableContainer">
     <table cellspacing="0" cellpadding="0" class="table03">
         <tr>
             <td> ProductName  </td>
-            <td> @Model.productDetail.Product_Name </td>
+            <td> @Model.Product_Name </td>
         </tr>
         <tr>
             <td> Locale   </td>
-            <td> @Model.productDetail.Locale </td>
+            <td> @Model.Locale </td>
         </tr>
         <tr>
             <td> Price   </td>
-            <td> @Model.productDetail.Price </td>
+            <td> @CurrencyConversion(Model.Price, Model.Locale) </td>
         </tr>
         <tr>
             <td> PromotePrice   </td>
-            <td> @Model.productDetail.Promote_Price </td>
+            <td> @CurrencyConversion(Model.Promote_Price, Model.Locale) </td>
         </tr>
         <tr>
             <td> CreateDate   </td>
-            <td> @Model.productDetail.Create_Date </td>
+            <td> @Model.Create_Date </td>
         </tr>
     </table>
     <div class="button_area align_c">
         <button type="button" class="button02" onclick="javascript:window.history.go(-1);">上一頁</button>
     </div>
 </div>
+@helper CurrencyConversion(string price, string locale)
+{
+    string cultureName = "";
+    switch (locale)
+    {
+        case "US":
+            cultureName = "en-US";
+            break;
+        case "DE":
+            cultureName = "de-DE";
+            break;
+        case "CA":
+            cultureName = "en-CA";
+            break;
+        case "ES":
+            cultureName = "es-ES";
+            break;
+        case "FR":
+            cultureName = "fr-FR";
+            break;
+        case "JP":
+            cultureName = "ja-JP";
+            break;
+        default:
+            cultureName = "-";
+            break;
+    }
+    double doubleResult;
+    if (double.TryParse(price, out doubleResult))
+    {
+        price = doubleResult.ToString("C", new System.Globalization.CultureInfo(cultureName));
+    }
+    else
+    {
+        price = "-";
+    }
+    <text>@price</text>
+}

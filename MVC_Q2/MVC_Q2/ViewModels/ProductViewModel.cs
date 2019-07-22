@@ -6,13 +6,12 @@ using System.Web;
 
 namespace MVC_Q2.ViewModels
 {
-    public class ProductDetailViewModel
+    public class ProductViewModel
     {
         public IPagedList<Product> productList { get; set; }
-        public ProductDetail productDetail { get; set; }
     }
 
-    public class ProductDetail
+    public class ProductDetailViewModel
     {
         public int Id { get; set; }
         public string Locale { get; set; }

@@ -9,17 +9,23 @@ namespace MVC_Q2.Models
 {
     public class DataRepository
     {
-        public List<ProductDetail> Get()
+        public List<ProductDetailViewModel> ReadData()
         {
             String PATH = String.Format(@"{0}\Content\data.json", System.AppDomain.CurrentDomain.BaseDirectory);
             string json = System.IO.File.ReadAllText(PATH);
             string str = json.Replace("\n", "").Replace("\r", "").Replace(" ", "");
-            return JsonConvert.DeserializeObject<List<ProductDetail>>(json);
+            return JsonConvert.DeserializeObject<List<ProductDetailViewModel>>(json);
         }
 
-        public List<Product> DataConversion()
+        public ProductDetailViewModel GetById(int id)
         {
-            List<ProductDetail> dataList = Get();
+            List<ProductDetailViewModel>  dataList = ReadData();
+            return dataList.Find(x => x.Id == id);
+        }
+
+        public List<Product> GetList()
+        {
+            List<ProductDetailViewModel> dataList = ReadData();
             List<Product> result = new List<Product>();
             foreach (var data in dataList)
             {
@@ -31,60 +37,6 @@ namespace MVC_Q2.Models
                 result.Add(product);
             }
             return result;
-        }
-
-        public ProductDetail CurrencyConversion(ProductDetail product)
-        {
-            string cultureName = GetCultureName(product.Locale);
-            double doubleResult;
-            if (double.TryParse(product.Price, out doubleResult))
-            {
-                product.Price = doubleResult.ToString("C", new System.Globalization.CultureInfo(cultureName));
-            }
-            else
-            {
-                product.Price = "-";
-            }
-
-            if (double.TryParse(product.Promote_Price, out doubleResult))
-            {
-                product.Promote_Price = doubleResult.ToString("C", new System.Globalization.CultureInfo(cultureName));
-            }
-            else
-            {
-                product.Promote_Price = "-";
-            }
-            return product;
-        }
-
-        public string GetCultureName(string locale)
-        {
-            string cultureName = "";
-            switch (locale)
-            {
-                case "US":
-                    cultureName = "en-US";
-                    break;
-                case "DE":
-                    cultureName = "de-DE";
-                    break;
-                case "CA":
-                    cultureName = "en-CA";
-                    break;
-                case "ES":
-                    cultureName = "es-ES";
-                    break;
-                case "FR":
-                    cultureName = "fr-FR";
-                    break;
-                case "JP":
-                    cultureName = "ja-JP";
-                    break;
-                default:
-                    cultureName = "-";
-                    break;
-            }
-            return cultureName;
         }
     }
 }

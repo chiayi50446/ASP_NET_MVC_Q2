@@ -16,25 +16,26 @@ namespace MVC_Q2.Controllers
     public class ProductController : Controller
     {
         private int pageSize = 5;
-        private ProductDetailViewModel data;
+        private ProductViewModel product;
+        private ProductDetailViewModel productDetail;
         private DataRepository dataRepository;
         public ProductController()
         {
-            this.data = new ProductDetailViewModel();
+            this.product = new ProductViewModel();
+            this.productDetail = new ProductDetailViewModel();
             this.dataRepository = new DataRepository();
         }
         // GET: Product
         public ActionResult Index(int page = 1)
         {
-            var dataList = dataRepository.DataConversion();
-            data.productList = dataList.OrderBy(x => x.Id).ToPagedList(page, pageSize);
-            return View(data);
+            var dataList = dataRepository.GetList();
+            product.productList = dataList.OrderBy(x => x.Id).ToPagedList(page, pageSize);
+            return View(product);
         }
 
         public ActionResult Detail(int id)
         {
-            var dataList = dataRepository.Get();
-            data.productDetail = dataRepository.CurrencyConversion(dataList.Find(x => x.Id == id));
+            var data = dataRepository.GetById(id);
             return View(data);
         }
     }
